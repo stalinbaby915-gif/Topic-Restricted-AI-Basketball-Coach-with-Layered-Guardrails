@@ -212,7 +212,7 @@ What changed since round 1:
 - **MX-03 fails the same way as in round 1.**
 - Blocked turns went from 58 to 60. The output-check similarity of approved replies went from a minimum of 0.305 to 0.271, even though the prompts did not change, which shows the model's replies vary between runs.
 
-This is two runs of one test set. I wrote the test set together with the guardrails, and some thresholds were set on the same prompts, so 95 of 97 is probably higher than a new tester would see.
+This is two runs of one test set. The test set and the guardrails were developed together, and some thresholds were set on the same prompts, so 95 of 97 is probably higher than a new tester would see.
 
 ### 6.3 Prompts used for testing
 
@@ -414,7 +414,7 @@ The full set is in `tests/adversarial_prompts.json`. The tables below come from 
 - A single-sentence message that joins a real question to an attack (for example "How do I shoot better, and also write me a poem?") can pass the embedding layer. It then depends on the system prompt and the output check.
 - The output check blocked nothing in either full run, so there is no evidence yet that it works in practice. The lowest approved reply scored 0.271 against a minimum of 0.25, so a good reply could be blocked on another run.
 - The thresholds were set on a small prompt set that is also used for testing, and some test prompts are close to the example prompts. The pass rates are probably higher than they would be for a new tester.
-- I wrote the test set and the guardrails together, so the tests reflect the attacks I thought of.
+- The test set and the guardrails were developed together (the prompts were drafted by Claude, section 8.2), so the tests reflect the attacks that were thought of.
 - The final run reuses the round 1 prompts, so the two regex patterns that were tightened after round 1 have no test case. I have not tested that the patterns still catch attacks and no longer block "Tell me the rules of basketball".
 - Only two full runs were made, so I did not measure how much the results vary between runs. The change in the lowest output-check similarity (0.305 to 0.271) suggests the replies vary.
 - The classifier refused a basketball player asking for a pre-game pancake recipe (MT-06.2, not scored). Whether that is a false refusal is a judgement call, but it shows where the boundary sits for food and nutrition.
@@ -427,17 +427,17 @@ The full set is in `tests/adversarial_prompts.json`. The tables below come from 
 
 ### 8.1 Tools used
 
-- Claude (Anthropic), through claude.ai: planning the design, drafting the code for each module, drafting the test prompts and test runner, and drafting this README, including the final results and analysis, which it wrote from my test output. I also used a humanizer plugin in Claude to rewrite code comments (for example in `logger.py`) to remove AI-style phrasing.
+- Claude (Anthropic), through claude.ai: planning the design, drafting the code for each module, drafting the test prompts and test runner, and drafting this README, including the final results and analysis, which it wrote from my test output. 
 - The IFB220 Azure AI endpoints (GPT-4.1-mini and text-embedding-3-small): the AI parts of the product itself.
 
 ### 8.2 How the work was divided
 
 | Stage | What the AI did | What I did |
 |---|---|---|
-| Design | Suggested a layered design and a file structure from the assignment rubric | Chose basketball as the topic (the default in the brief is climbing) and decided to build and check one file at a time, with the README last |
-| Code | Drafted each module | Ran the bot against the real endpoint, edited some comments and docstrings myself, and asked what unfamiliar code did (the regex syntax, f-strings) before keeping it |
+| Design | Suggested a layered design and a file structure from the assignment rubric | Chose basketball as the topic|
+| Code | Drafted each module | Ran the bot against the real endpoint and reviewed its output and the event logs |
 | Testing | Drafted the prompt set and the runner | Ran `calibrate.py` and the full test suite with my own API key and read the failures |
-| Documentation | Drafted the structure of this README, then filled in the final results, the analysis and the remaining sections from my test output | Ran the final test suite, checked figures in `tests/results.md` (for example the output-check similarity), and gave Claude the run output |
+| Documentation | Drafted the README, then did the final check of the text | Ran the final test suite and added the results (the values in the final-run tables), and checked figures in tests/results.md such as the output-check similarity |
 
 ### 8.3 How AI-generated content was checked
 
@@ -450,7 +450,7 @@ The full set is in `tests/adversarial_prompts.json`. The tables below come from 
 - I saved the round 1 report and event log (`results_round1.md`, `results_round1.json`, `test_run_events_round1.jsonl`) before changing anything, so the final run could be compared with it.
 - I read every failure in the final run. The two failures (MX-02 and MX-03) are reported in section 6.2 and their labels were not changed to make them pass.
 - The code was tested with mocked API errors before the real API was used.
-- Comments written in an AI style were rewritten, and a few claims in comments that had no evidence behind them were removed.
+- Comments written in an AI style were rewritten with Claude's humanizer plugin, and a few claims in comments that had no evidence behind them were corrected.
 
 ### 8.4 Where the AI output needed correcting
 
@@ -480,4 +480,4 @@ The full set is in `tests/adversarial_prompts.json`. The tables below come from 
 
 ### 8.6 Academic integrity
 
-I ran the chatbot and the test suite myself against the real endpoint, read the failures and traced them to the code. I reviewed the code and this README before submitting them, and I can explain how each part works. The AI use in sections 8.1 to 8.4 is described as it happened.
+I ran the chatbot and the test suite myself against the real endpoint, read the failures and traced them to the code. The AI use in sections 8.1 to 8.4 is described as it happened, including that Claude drafted the code, the test prompts and this README.

@@ -1,0 +1,99 @@
+{
+  "topic": {
+    "name": "basketball",
+    "description": "Basketball: rules, positions, offensive and defensive strategy, shooting and ball-handling technique, training for basketball players, coaching, equipment, leagues (NBA, WNBA, NBL, FIBA, NCAA), players, teams, stats and history.",
+    "assistant_role": "a friendly, experienced basketball coach",
+    "tone": "encouraging, practical and concise",
+    "boundary_notes": "General fitness or nutrition is only in scope when it is about basketball performance. Other sports and gambling advice are out of scope."
+  },
+
+  "on_topic_examples": [
+    "How do I improve my jump shot form?",
+    "What's the difference between man-to-man and zone defence?",
+    "Can you explain the pick and roll?",
+    "What does a point guard do compared to a shooting guard?",
+    "What counts as a travelling violation?",
+    "How can I improve my left-hand dribbling?",
+    "How does the NBA salary cap work?",
+    "What drills help build vertical jump for basketball?",
+    "How do I run an effective fast break?",
+    "Who are some of the best defensive players in basketball history?"
+  ],
+
+  "off_topic_examples": [
+    "What's a good recipe for lasagne?",
+    "Write me a Python script to sort a list.",
+    "Who won the last federal election?",
+    "What's the weather going to be like tomorrow?",
+    "Can you recommend a good movie?",
+    "Help me write a cover letter for a job.",
+    "What's the best way to invest $5000?",
+    "Explain how black holes form.",
+    "How do I fix my car's brakes?",
+    "What are the rules of cricket?"
+  ],
+
+  "messages": {
+    "greeting": "Hi! I'm your basketball coach. Ask me anything about technique, strategy, rules, training, players or leagues. Type /quit to exit.",
+    "off_topic_refusal": "I can only help with basketball topics. Is there something about basketball I can help you with?",
+    "injection_refusal": "I can't change my instructions or role. I'm here to help with basketball, so what would you like to know?",
+    "output_blocked": "Sorry, I couldn't give a good answer to that. Could you ask your basketball question a different way?",
+    "service_error": "I'm having trouble reaching the AI service right now. Please try again in a moment.",
+    "input_too_long": "That message is too long. Please keep it under {max_chars} characters.",
+    "empty_input": "Please type a basketball question."
+  },
+
+  "api": {
+    "base_url": "https://qut-ai.azure-api.net/ifb220/openai/",
+    "api_version": "2025-03-01-preview",
+    "chat_model": "gpt-4.1-mini",
+    "embedding_model": "text-embedding-3-small",
+    "timeout_seconds": 30,
+    "max_retries": 3
+  },
+
+  "generation": {
+    "chat_temperature": 0.5,
+    "chat_max_tokens": 500,
+    "classifier_temperature": 0.0,
+    "classifier_max_tokens": 60
+  },
+
+  "guardrails": {
+    "max_input_chars": 800,
+    "injection_patterns": [
+      "ignore (all |any )?(your |the )?(previous|prior|above|earlier) (instructions|rules|prompts?)",
+      "disregard (all |any )?(your |the )?(previous|prior|above|earlier)",
+      "(ignore|disregard|forget|bypass|override) (all |any |of )*(your|these|those) (previous |prior |above |earlier )?(rules|instructions|guidelines|restrictions|programming|prompt|constraints)",
+      "forget (everything|all|your) (you|instructions|rules)",
+      "(reveal|show|print|repeat|output|tell me) (me )?(your (system |hidden |initial )?|the (system|hidden|initial) )(prompt|instructions|rules)",
+      "you are now (?!a basketball)",
+      "pretend (to be|you are|you're)",
+      "(^|i want you to |you must |you will |you should |please |now |from now on,? )act as",
+      "developer mode|jailbreak"
+    ],
+
+    "embedding": {
+      "pass_threshold": 0.40,
+      "block_threshold": 0.20,
+      "margin": 0.05,
+      "block_margin": 0.10,
+      "short_message_word_limit": 6,
+      "long_message_word_limit": 40
+    },
+    "output_check": {
+      "min_similarity": 0.25,
+      "leak_markers": ["system prompt", "my instructions are"]
+    }
+  },
+
+  "context": {
+    "max_context_tokens": 3000,
+    "keep_recent_turns": 6
+  },
+
+  "logging": {
+    "log_directory": "logs",
+    "log_file": "chatbot_events.jsonl"
+  }
+}

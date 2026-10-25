@@ -1,0 +1,16 @@
+# Python 3.10 or newer is required.
+# Install with:  pip install -r requirements.txt
+
+# Azure/OpenAI client used to call the IFB220 chat and embedding endpoints
+openai>=1.40.0
+
+# Cosine similarity maths for the embedding guardrail
+numpy>=1.26
+
+# Exact token counting for context-window management (falls back to an
+# estimate if this cannot load its encoding files)
+tiktoken>=0.7.0
+
+# Optional convenience: loads API_KEY from a local .env file during development.
+# The program only needs API_KEY to exist as an environment variable.
+python-dotenv>=1.0.0
